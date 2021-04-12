@@ -1,0 +1,9 @@
+Réaliser un programme qui reprend toutes les notions vues en cours : 
+
+ # Input
+ # Les nombres
+ # Les chaines de caractères
+ # Les conditions
+ # Les listes
+ 
+Transmettre à izmir.suat@gmail.com
