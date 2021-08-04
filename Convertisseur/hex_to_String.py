@@ -1,22 +1,21 @@
-import codecs
+import binascii
 
-decode_hex = codecs.getdecoder("hex_codec")
+# this decode is only on python3
+def decode():
+    toDecode = input('\nexpected anything like that : 0x7061756 or 74657374 or 0x74/x65/x73/x74 \ntapez un message a decoder\n')
+    decoded = bytes.fromhex(toDecode).decode('utf-8')
+    print(decoded)
 
-# for an array
-#msgs = [decode_hex(msg)[0] for msg in msgs]
+# this decode is only on python3
+def encode():
+    toEncode = input('\nutf-8 string is expected \ntapez un message a decoder\n')
+    encoded = toEncode.encode('utf-8').hex()
+    print(encoded)
 
-# for a string
-theString = "b'\x7f\x00\x00\x01a\ny\x0e\x04N\xb7Q\r\xf9E\x02"
-myString = decode_hex(theString)[0]
-
-print(myString)
-
-'''
-varHexa = "b'\x7f\x00\x00\x01a\ny\x0e\x04N\xb7Q\r\xf9E\x02'"
-
-varHexa.decode('unicode_escape')
-print(varHexa)
-
-ui = 'A'.join(map(chr, [65,66,67]))
-print(ui)
-'''
+choix = input("Encode ou Decode ? \n")
+if choix == "encode" or choix == "Encode":
+	encode()
+elif choix == "decode" or choix == "Decode":
+    decode()
+else:
+	print("Erreur lors de la saisie")
