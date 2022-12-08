@@ -3,6 +3,7 @@ import json
 with open('properties.json') as json_file:
     properties = json.load(json_file)
     properties["StringProperty"] = "new value"
+    json.dump(properties, json_file)
     
 print(properties)
 
