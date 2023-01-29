@@ -24,3 +24,4 @@
 /home/amy/.bashrc
 /home/loren/.bashrc
 /home/loren/.ssh/id_rsa
+/home/loren/.ssh/id_rsa.pub
