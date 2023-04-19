@@ -1,3 +1,0 @@
-string = test
-hex = 74657374
-B64 = NzQ2NTczNzQ=
