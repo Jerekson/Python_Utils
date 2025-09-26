@@ -19,3 +19,8 @@ result = count_up_to(5)
 
 
 
+def main():
+	pass #print("test main execution")
+
+if __name__ == '__main__':
+	main()

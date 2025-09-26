@@ -1,0 +1,7 @@
+2025-09-26 10:17:35 - ERROR - division by zero
+2025-09-26 10:17:49 - ERROR - DonutCalculationError
+Traceback (most recent call last):
+  File "/home/koceila/Documents/git/Python_Utils/Learning/test-module/test-logging-module.py", line 36, in <module>
+    donuts_per_guest = donuts / guests
+                       ~~~~~~~^~~~~~~~
+ZeroDivisionError: division by zero
