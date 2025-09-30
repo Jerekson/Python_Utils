@@ -7,7 +7,7 @@ findmydir = os.path.dirname(os.path.realpath(__file__))
 # adjusting the log level, from debug to critical (DEBUG, INFO, WARNING, ERROR, CRITICAL)
 logging.basicConfig(
 	# Logging to a file
-	filename=findmydir + "/test-logging-module.log",
+	filename=findmydir + "/test_logging_module.log",
 	encoding="utf-8",
 	filemode="a",
 
@@ -19,14 +19,14 @@ logging.basicConfig(
 	level=logging.DEBUG
 )
 
-'''
+
 # root logger 
 logging.debug("test debug message")
 logging.info("test info ?")
 logging.warning("test warning")
 logging.error("test error")
 logging.critical("AAAAAAAH !!!")
-'''
+
 
 
 # test exception & log
