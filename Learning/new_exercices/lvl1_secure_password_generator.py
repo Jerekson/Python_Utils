@@ -10,22 +10,38 @@
 import argparse, logging
 from pathlib import Path
 
-def start():
-    #args = parser()
-    
-       
+class PWD_generator:
+    print('PWD generator class start')
+    defaultFilePath = ''
+    def __init__(self, pwdLong=12, save=False, filePath='myfile'):
+        print('constructor start')
+        self.pwdLong = pwdLong
+        self.save = save
+        self.filePath = filePath
+        
+    def get_new_pwd(self):
+        return 'run'
+
 
 def parser():
-    parser = argparse.ArgumentParser(description='Directories Enumerator.')
+    parser = argparse.ArgumentParser(description='lvl1 secure password generator')
 
-    parser.add_argument('-pwd-long', dest='wdPath', help='WordList Path', required=True)
-    parser.add_argument('--save-file-path', dest='tls', help='https True or False?', default='True')
+    parser.add_argument('--pwdLong', dest='pwdLong', help='password long', required=False)
+    parser.add_argument('--save', dest='save', help='want to save it', required=False)
+    parser.add_argument('--filePath', dest='filePath', help='file path', required=False)
 
     return parser.parse_args()
 
-start()
 
-
-
-class PWD_generator:
-    pass
+if __name__ == '__main__':
+    args = parser()
+    print(args)
+    if args.pwdLong and args.save and args.filePath:
+        print('pwd save and file')
+    elif args.pwdLong and args.save:
+        print('pwd and save')
+    elif args.pwdLong:
+        print('pwd')
+    else:
+        print('no')
+        quit()
