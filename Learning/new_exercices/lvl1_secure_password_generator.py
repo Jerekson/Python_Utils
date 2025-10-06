@@ -7,8 +7,10 @@
 # add argparse, logging and Path modules too
 ## try match
 
-import argparse, logging
+import argparse, logging, sys
 from pathlib import Path
+
+print("test import log ? ")
 
 class PWD_generator:
     print('PWD generator class start')
@@ -18,6 +20,10 @@ class PWD_generator:
         self.pwdLong = pwdLong
         self.save = save
         self.filePath = filePath
+
+        # config log?
+
+    def log 
         
     def get_new_pwd(self):
         return 'run'
@@ -32,16 +38,20 @@ def parser():
 
     return parser.parse_args()
 
+def configLog():
+    pass
 
 if __name__ == '__main__':
     args = parser()
     print(args)
-    if args.pwdLong and args.save and args.filePath:
+    if len(sys.argv) == 1:
+        print("0 args")
+    elif args.pwdLong and args.save and args.filePath:
         print('pwd save and file')
     elif args.pwdLong and args.save:
         print('pwd and save')
     elif args.pwdLong:
         print('pwd')
     else:
-        print('no')
+        print('You have to enter at least a password longer at "-pwdLong" \n"--save" and "--filePath" are facultative but "filePath" need "save"')
         quit()
