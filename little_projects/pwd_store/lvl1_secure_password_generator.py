@@ -22,8 +22,6 @@ class PWD_generator:
         self.filePath = filePath
 
         # config log?
-
-    def log 
         
     def get_new_pwd(self):
         return 'run'
