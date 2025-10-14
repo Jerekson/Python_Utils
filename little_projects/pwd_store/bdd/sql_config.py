@@ -1,4 +1,4 @@
-
+# SQLite
 class SQL_config:
 
 	def __init__(self):

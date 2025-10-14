@@ -7,7 +7,7 @@
 # add argparse, logging and Path modules too
 ## try match
 
-import argparse, logging, sys
+import logging, sys
 from pathlib import Path
 
 print("test import log ? ")
@@ -26,30 +26,8 @@ class PWD_generator:
     def get_new_pwd(self):
         return 'run'
 
-
-def parser():
-    parser = argparse.ArgumentParser(description='lvl1 secure password generator')
-
-    parser.add_argument('--pwdLong', dest='pwdLong', help='password long', required=False)
-    parser.add_argument('--save', dest='save', help='want to save it', required=False)
-    parser.add_argument('--filePath', dest='filePath', help='file path', required=False)
-
-    return parser.parse_args()
-
 def configLog():
     pass
 
 if __name__ == '__main__':
-    args = parser()
-    print(args)
-    if len(sys.argv) == 1:
-        print("0 args")
-    elif args.pwdLong and args.save and args.filePath:
-        print('pwd save and file')
-    elif args.pwdLong and args.save:
-        print('pwd and save')
-    elif args.pwdLong:
-        print('pwd')
-    else:
-        print('You have to enter at least a password longer at "-pwdLong" \n"--save" and "--filePath" are facultative but "filePath" need "save"')
-        quit()
+    pass

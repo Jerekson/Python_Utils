@@ -4,9 +4,9 @@ import sys
 # Logger Name 
 PACKAGE_LOGGER_NAME = "pwd_store"
 
-def setup_logging():
-	print("setup_logging start")
+def logging_setup():
+	return "logging setup alive"
 
 
 def add_null_handler():
-	print("add_null_handler start")
+	return "add null handler alive"
