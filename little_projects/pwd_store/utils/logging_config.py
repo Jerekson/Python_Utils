@@ -3,7 +3,9 @@ import logging, sys
 # Logger Name 
 PACKAGE_LOGGER_NAME = "pwd_store"
 
-def logging_setup():
+# FilePath == Null for default
+# loglevel == 
+def logging_setup(filePath, loglevel):
 	return "logging setup alive"
 
 
