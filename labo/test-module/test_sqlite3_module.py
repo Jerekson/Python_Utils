@@ -56,54 +56,109 @@ def firsts_tests(whereIam):
 
 
 # new tests with an other table 
-def primarykey_tests(whereIam):
+def one_primarykey_tests(whereIam):
 	con = sqlite3.connect(whereIam+"/test_sqlite3_module.db")
 	cur = con.cursor()
 
 	data1 = [
-	(1, 'fname1', 'lname1'),
-	(2, 'fname2', 'lname2'),
+	(1, 'fname1', 'dataType1'),
+	(2, 'fname2', 'dataType1'),
 	]
 	data2 = [
-	('fname3','lname3'),
-	('fname4','lname4')
+	('fname3','dataType2'),
+	('fname4','dataType2')
 	]
 
 	# primary key with auto increment
 	try:
-		cur.execute("""CREATE TABLE users(
+		cur.execute("""CREATE TABLE users_onepkey(
 			id INTEGER PRIMARY KEY,
 			fname NOT NULL,
 			lname NOT NULL
 			)
 			""")
 	except sqlite3.OperationalError:
-		print("table 'users' already exists")
+		print("table 'users_onepkey' already exists")
 
 	try:
-		con.executemany("INSERT INTO users VALUES(?,?,?)", data1)
+		con.executemany("INSERT INTO users_onepkey VALUES(?,?,?)", data1)
 	except sqlite3.ProgrammingError as e:
 		print(e)
+		print("\ndata1 type dont work")
 	except sqlite3.IntegrityError as e:
-		print(e) 
+		print(e)
+		print("\ndata1 type dont work") 
 	except sqlite3.OperationalError as e:
 		print(e)
+		print("\ndata1 type dont work")
 	
 	try:
-		con.executemany("INSERT INTO users(fname, lname) VALUES(?,?)", data2)
+		con.executemany("INSERT INTO users_onepkey(fname, lname) VALUES(?,?)", data2)
 	except sqlite3.ProgrammingError as e:
 		print(e)
+		print("\ndata2 type dont work")
 	except sqlite3.OperationalError as e:
 		print(e)
+		print("\ndata2 type dont work")
 
 	con.commit()
-	res = con.execute("SELECT * FROM users")
+	res = con.execute("SELECT * FROM users_onepkey")
 	for row in res:
 		print(row)
 
 
+def two_primarykey_tests(whereIam):
+	con = sqlite3.connect(whereIam+"/test_sqlite3_module.db")
+	cur = con.cursor()
 
-def m_2ultithreads_tests(whereIam):
+	data1 = [
+	(1, 'fname1', 'dataType1'),
+	(2, 'fname2', 'dataType1'),
+	]
+	data2 = [
+	('fname3','dataType2'),
+	('fname4','dataType2')
+	]
+
+	# primary key with auto increment
+	try:
+		cur.execute("""CREATE TABLE users_twopkey(
+			id,
+			fname,
+			lname,
+			PRIMARY KEY(id, lname)
+			)
+			""")
+	except sqlite3.OperationalError:
+		print("table 'users_twopkey' already exists")
+	
+	try:
+		con.executemany("INSERT INTO users_twopkey VALUES(?,?,?)", data1)
+	except sqlite3.ProgrammingError as e:
+		print(e)
+		print("\ndata1 type dont work")
+	except sqlite3.IntegrityError as e:
+		print(e)
+		print("\ndata1 type dont work") 
+	except sqlite3.OperationalError as e:
+		print(e)
+		print("\ndata1 type dont work")
+	
+	try:
+		con.executemany("INSERT INTO users_twopkey(fname, lname) VALUES(?,?)", data2)
+	except sqlite3.ProgrammingError as e:
+		print(e)
+		print("\ndata2 type dont work")
+	except sqlite3.OperationalError as e:
+		print(e)
+		print("\ndata2 type dont work")
+	
+	con.commit()
+	res = con.execute("SELECT * FROM users_twopkey")
+	for row in res:
+		print(row)
+
+def multithreads_tests(whereIam):
 	pass
 
 def nosqli(whereIam):
@@ -130,9 +185,11 @@ def get_all_tables(whereIam, dbName):
 
 get_all_tables(whereIam, "test_sqlite3_module.db")
 # firsts_tests(whereIam)
-primarykey_tests(whereIam)
+# one_primarykey_tests(whereIam)
+two_primarykey_tests(whereIam)
 
 
 # dropTable(whereIam, 'test_sqlite3_module.db', 'meguitares')
-dropTable(whereIam, 'test_sqlite3_module.db', 'users')
+# dropTable(whereIam, 'test_sqlite3_module.db', 'users_onepkey')
+dropTable(whereIam, 'test_sqlite3_module.db', 'users_twopkey')
 # dropTable(whereIam, 'test_sqlite3_module.db', 'users_2')
