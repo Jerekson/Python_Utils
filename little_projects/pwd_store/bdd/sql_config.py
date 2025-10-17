@@ -5,4 +5,7 @@ class SQL_config:
 		return "SQL config init start"
 	
 	def run(self):
-		return "Run started"
+		return "sqlconfig def Run started"
+
+	def createDB(dbname):
+		return "createDB started"

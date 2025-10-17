@@ -7,3 +7,4 @@ print("__init__ auto started - V:" + __version__)
 from .pwd_generator import PWD_generator
 from .bdd import SQL_config
 from .utils.logging_config import logging_setup
+

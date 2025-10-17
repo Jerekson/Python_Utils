@@ -1,5 +1,4 @@
-from logging import NullHandler
-import sys
+import logging, sys
 
 # Logger Name 
 PACKAGE_LOGGER_NAME = "pwd_store"

@@ -24,7 +24,7 @@ class PWD_generator:
         # config log?
         
     def get_new_pwd(self):
-        return 'run'
+        return 'get new pwd def start'
 
 def configLog():
     pass
