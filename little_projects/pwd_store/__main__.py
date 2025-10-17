@@ -17,7 +17,9 @@ def parser():
 
 if __name__ == "__main__":
 	print("I'm main")
-	print(logging_setup())
+	logging_setup()
+
+    
 	
 	'''
 	args = parser()

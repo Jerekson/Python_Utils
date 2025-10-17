@@ -5,4 +5,12 @@ print(newpwd)
 
 gestion = SQL_config.run("test")
 print(gestion)
-print(logging_setup())
+print(logging_setup(None, 'ui'))
+
+
+def test(info1 = "UI!", info2 = "ah ?"):
+    print(info1 + info2)
+
+test("blabla")
+test()
+test("","bou")
