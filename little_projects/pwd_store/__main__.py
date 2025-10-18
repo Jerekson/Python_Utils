@@ -1,9 +1,8 @@
 import logging, argparse
-from .utils.logging_config import logging_setup
+from .utils.logging_config import logging_package_setup
 
 print("auto start __main__ and have to run PWD_generator")
-
-
+LOG_LEVEL_FROM_ARGS = logging.DEBUG # if it call with -v for verbose -> DEBUG else INFO 
 
 def parser():
     parser = argparse.ArgumentParser(description='lvl1 secure password generator')
@@ -17,8 +16,9 @@ def parser():
 
 if __name__ == "__main__":
 	print("I'm main")
-	logging_setup()
+	# logging_package_setup()
 
+    logging_package_setup(level=LOG_LEVEL_FROM_ARGS)
     
 	
 	'''
