@@ -9,19 +9,14 @@
 
 import logging, sys
 from pathlib import Path
+from .bdd import SQL_config
 
-print("test import log ? ")
+log = logging.getLogger(__name__)
 
 class PWD_generator:
-    print('PWD generator class start')
-    defaultFilePath = ''
-    def __init__(self, pwdLong=12, save=False, filePath='myfile'):
-        print('constructor start')
+    def __init__(self, pwdLong=12):
+        log.debug("PWD_generator instance created")
         self.pwdLong = pwdLong
-        self.save = save
-        self.filePath = filePath
-
-        # config log?
         
     def get_new_pwd(self):
         return 'get new pwd def start'

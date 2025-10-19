@@ -1,38 +1,39 @@
-import logging, argparse
+import logging, argparse, sys
 from .utils.logging_config import logging_package_setup
-
-print("auto start __main__ and have to run PWD_generator")
-LOG_LEVEL_FROM_ARGS = logging.DEBUG # if it call with -v for verbose -> DEBUG else INFO 
+from .bdd import SQL_config
 
 def parser():
-    parser = argparse.ArgumentParser(description='lvl1 secure password generator')
+    parser = argparse.ArgumentParser(description="""Password Generator""")
 
-    parser.add_argument('--pwdLong', dest='pwdLong', help='password long', required=False)
-    parser.add_argument('--save', dest='save', help='want to save it', required=False)
-    parser.add_argument('--filePath', dest='filePath', help='file path', required=False)
+    parser.add_argument("--pwdLong", dest="pwdLong", help="password long", required=False)
+    parser.add_argument("--save", dest="save", action="store_true", help="if you want to save it in the default DB", required=False)
+
+    # mode verbose
+    parser.add_argument("-v", "--verbose", action="store_true", help="mode verbose for logs level DEBUG")
 
     return parser.parse_args()
 
+def main():
+	args = parser()
+
+	if args.verbose:
+		log_level = logging.DEBUG
+	else:
+		log_level = logging.INFO
+
+	logging_package_setup(level=log_level)
+	log = logging.getLogger("little_projects.pwd_store")
+	log.debug("main firsts config done with theses args -> %s", args)
+
+	# Generate a password
+
+	# Save it or print it
+	if args.save:
+		log.debug("save was selected, need DB instantiation")
+		SQL_config()
+	else:
+		pass # pprint the password here
 
 if __name__ == "__main__":
-	print("I'm main")
-	# logging_package_setup()
-
-    logging_package_setup(level=LOG_LEVEL_FROM_ARGS)
-    
+	main()
 	
-	'''
-	args = parser()
-	print(args)
-	if len(sys.argv) == 1:
-		print("0 args")
-	elif args.pwdLong and args.save and args.filePath:
-		print('pwd save and file')
-	elif args.pwdLong and args.save:
-		print('pwd and save')
-	elif args.pwdLong:
-		print('pwd')
-	else:
-		print('You have to enter at least a password longer at "-pwdLong" \n"--save" and "--filePath" are facultative but "filePath" need "save"')
-		quit()
-	'''

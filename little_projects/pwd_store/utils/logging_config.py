@@ -1,4 +1,5 @@
 import logging, sys, os
+from logging import NullHandler
 
 # Logger Name 
 PACKAGE_LOGGER_NAME = "pwd_store"
@@ -28,11 +29,10 @@ def logging_package_setup(level=logging.INFO, handler_type='stream'):
 	package_logger.propagate = False # avoids double emission if the root logger already configured
 
 	# alive the return the package_logger
-	package_logger.info("log configured")
+	package_logger.debug("log configured")
 	return package_logger
 
-def get_logs_package(handler_type):
-	pass
-
 def add_null_handler():
-	return "add null handler alive"
+	logger = logging.getLogger("little_projects.pwd_store")
+	if not logger.handlers: # check if the logger has already a handler 
+		logger.addHandler(NullHandler())

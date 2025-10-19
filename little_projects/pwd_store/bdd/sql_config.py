@@ -1,8 +1,13 @@
-# SQLite
-class SQL_config:
+# pwd_store/bdd/SQLite
+import sqlite3, logging
 
-	def __init__(self):
-		return "SQL config init start"
+log = logging.getLogger(__name__)
+
+class SQL_config:
+	def __init__(self, dbPath=".testDB.b"):
+		log.debug("SQL_config instance created")
+		log.debug("db name is %s", dbPath)
+		
 	
 	def run(self):
 		return "sqlconfig def Run started"
