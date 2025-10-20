@@ -10,9 +10,13 @@
 
 ## IN PROGRESS
 ### little projects
- - pwd_store
+
+### Python_and_network
+- check_website - check if an url is alive
  
 ## DONE
+### little projects
+ - pwd_store - v1 done. check README before new improvement
 
 
 ----
