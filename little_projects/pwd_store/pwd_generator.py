@@ -7,7 +7,7 @@
 # add argparse, logging and Path modules too
 ## try match
 
-import logging, sys
+import logging, sys, secrets, string
 from pathlib import Path
 from .bdd import SQL_config
 
@@ -19,10 +19,11 @@ class PWD_generator:
         self.pwdLong = pwdLong
         
     def get_new_pwd(self):
-        return 'get new pwd def start'
+        log.debug("get_new_pwd methode start")
+        # Define the character sets
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        password_length = self.pwdLong # Set the desired password length
 
-def configLog():
-    pass
-
-if __name__ == '__main__':
-    pass
+        # Generate a strong password
+        password = ''.join(secrets.choice(alphabet) for _ in range(password_length))
+        return password

@@ -1,6 +1,6 @@
 # pwd_store/__init__.py
 
-__version__ = "0.5"
+__version__ = "1"
 
 from .pwd_generator import PWD_generator
 from .bdd import SQL_config

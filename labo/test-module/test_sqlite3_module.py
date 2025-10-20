@@ -28,7 +28,7 @@ def firsts_tests(whereIam):
 	# commit all changes 
 	con.commit()
 
-	res = con.execute("SELECT score FROM movie")
+	res = cur.execute("SELECT score FROM movie")
 	print(res.fetchall())
 
 	# INSERT a list from dict
@@ -51,7 +51,7 @@ def firsts_tests(whereIam):
 	# new connexion
 	newcon = sqlite3.connect(whereIam+"/test_sqlite3_module.db")
 	newcur = newcon.cursor()
-	print(newcon.execute("SELECT title, year FROM movie ORDER BY score DESC").fetchone())
+	print(newcur.execute("SELECT title, year FROM movie ORDER BY score DESC").fetchone())
 	newcon.close()
 
 
@@ -81,7 +81,7 @@ def one_primarykey_tests(whereIam):
 		print("table 'users_onepkey' already exists")
 
 	try:
-		con.executemany("INSERT INTO users_onepkey VALUES(?,?,?)", data1)
+		cur.executemany("INSERT INTO users_onepkey VALUES(?,?,?)", data1)
 	except sqlite3.ProgrammingError as e:
 		print(e)
 		print("\ndata1 type dont work")
@@ -93,7 +93,7 @@ def one_primarykey_tests(whereIam):
 		print("\ndata1 type dont work")
 	
 	try:
-		con.executemany("INSERT INTO users_onepkey(fname, lname) VALUES(?,?)", data2)
+		cur.executemany("INSERT INTO users_onepkey(fname, lname) VALUES(?,?)", data2)
 	except sqlite3.ProgrammingError as e:
 		print(e)
 		print("\ndata2 type dont work")
@@ -102,7 +102,7 @@ def one_primarykey_tests(whereIam):
 		print("\ndata2 type dont work")
 
 	con.commit()
-	res = con.execute("SELECT * FROM users_onepkey")
+	res = cur.execute("SELECT * FROM users_onepkey")
 	for row in res:
 		print(row)
 
@@ -133,7 +133,7 @@ def two_primarykey_tests(whereIam):
 		print("table 'users_twopkey' already exists")
 	
 	try:
-		con.executemany("INSERT INTO users_twopkey VALUES(?,?,?)", data1)
+		cur.executemany("INSERT INTO users_twopkey VALUES(?,?,?)", data1)
 	except sqlite3.ProgrammingError as e:
 		print(e)
 		print("\ndata1 type dont work")
@@ -145,7 +145,7 @@ def two_primarykey_tests(whereIam):
 		print("\ndata1 type dont work")
 	
 	try:
-		con.executemany("INSERT INTO users_twopkey(fname, lname) VALUES(?,?)", data2)
+		cur.executemany("INSERT INTO users_twopkey(fname, lname) VALUES(?,?)", data2)
 	except sqlite3.ProgrammingError as e:
 		print(e)
 		print("\ndata2 type dont work")
@@ -154,7 +154,7 @@ def two_primarykey_tests(whereIam):
 		print("\ndata2 type dont work")
 	
 	con.commit()
-	res = con.execute("SELECT * FROM users_twopkey")
+	res = cur.execute("SELECT * FROM users_twopkey")
 	for row in res:
 		print(row)
 
@@ -184,12 +184,28 @@ def get_all_tables(whereIam, dbName):
 
 
 get_all_tables(whereIam, "test_sqlite3_module.db")
-# firsts_tests(whereIam)
-# one_primarykey_tests(whereIam)
-two_primarykey_tests(whereIam)
+#firsts_tests(whereIam)
+#one_primarykey_tests(whereIam)
+#two_primarykey_tests(whereIam)
 
 
-# dropTable(whereIam, 'test_sqlite3_module.db', 'meguitares')
-# dropTable(whereIam, 'test_sqlite3_module.db', 'users_onepkey')
-dropTable(whereIam, 'test_sqlite3_module.db', 'users_twopkey')
-# dropTable(whereIam, 'test_sqlite3_module.db', 'users_2')
+deleteall = False
+deletemovie = False
+deleteonekey = False
+deletetwokey = False
+if deleteall or deletemovie:
+	try:
+		dropTable(whereIam, 'test_sqlite3_module.db', 'movie')
+	except:
+		print("done for movie")
+if deleteall or deleteonekey:
+	try:
+		dropTable(whereIam, 'test_sqlite3_module.db', 'users_onepkey')
+	except:
+		print("done for users_onepkey")
+if deleteall or deletetwokey:
+	try:
+		dropTable(whereIam, 'test_sqlite3_module.db', 'users_twopkey')
+	except:
+		print("done for users_twopkey")
+
