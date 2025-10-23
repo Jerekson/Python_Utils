@@ -5,10 +5,12 @@ The goal is to create an interactive program that allows the user to manage a to
 This project focuses more on application logic and data persistence. 
 
 ## Functionnalities v1
-[&check;] start 
-[&cross;] save tasks (with JSON)
-[&cross;] user can (add tasks, show tasks per context or all, make them done, delete task)  
--> use while true or match  
+[&check;] start  
+[&cross;] create json file with defaults values   
+[&cross;] create all json's methodes  
+[&cross;] user can (add tasks, show tasks per context or all, make them done, delete task)   
+-  use while true or match
+
 [&cross;] 
 
 ## Functionnalities v2  

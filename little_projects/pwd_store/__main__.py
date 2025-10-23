@@ -1,4 +1,4 @@
-import logging, argparse, sys
+import logging, argparse
 from .utils.logging_config import logging_package_setup
 from .bdd import SQL_config
 from . import PWD_generator
