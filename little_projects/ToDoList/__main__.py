@@ -1,9 +1,11 @@
-import logging, arparse
+import logging, argparse
 from .utils.logging_config import *
 from . import todolist
 
 def parser():
-    pass
+    parser = argparse.ArgumentParser(description="To Do List")
+
+    
 
 def main():
     args = parser()
