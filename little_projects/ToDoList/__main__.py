@@ -1,5 +1,5 @@
 import logging, argparse
-from .utils.logging_config import *
+from .utils.logging_config import logging_setup
 from . import todolist
 
 def parser():
@@ -18,10 +18,20 @@ def parser():
     
 
 def main():
+    print("main start")
+
     # retrieve args
     args = parser()
-    
+
     # Log configuration
+    if args.v:
+        log_level = logging.DEBUG
+    else:
+        log_level = logging.INFO
+
+    logging_setup(level=log_level)
+    log = logging.getLogger("little_projects.ToDoList")
+    log.debug("main log configured and start with theses args \n%s", args)
 
     # Start
 
