@@ -1,6 +1,6 @@
 import logging, argparse
 from .utils.logging_config import logging_setup
-from . import todolist
+from .todolist import Todolist
 
 def parser():
     parser = argparse.ArgumentParser(description="To Do List")
@@ -34,6 +34,7 @@ def main():
     log.debug("main log configured and start with theses args \n%s", args)
 
     # Start
+    Todolist().add_task()
 
 if __name__ == "__main__":
     main()
