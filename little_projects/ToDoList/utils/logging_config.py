@@ -14,7 +14,7 @@ def logging_setup(level=logging.INFO, handler_type="stream"):
         return
     
     # Create the format
-    log_format = logging.Formatter("%(acstime)s - %(name)s - %(levelname)s - %(message)s")
+    log_format = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     
     # handler prompt or file (default = prompt)
     if handler_type == "stream":
