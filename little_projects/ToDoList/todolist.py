@@ -15,8 +15,11 @@ class Todolist:
     def get_tasks(self):
         log.debug("get_tasks methode start")
     
-    def updage_task(self):
+    def update_task(self):
         log.debug("update_task methode start")
 
     def delete_tasl(self):
         log.debug("delete_task methode start")
+
+    def task_done(self):
+        log.debug("task_done methode start")
