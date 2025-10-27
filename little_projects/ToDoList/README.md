@@ -6,7 +6,9 @@ This project focuses more on application logic and data persistence.
 
 ## Functionnalities v1
 [&check;] start  
-[&cross;] create json file with defaults values   
+[&check;] prepare logging functions  
+[&cross;] prepare all todolist functionnalities  
+[&cross;] create json file with defaults values  
 [&cross;] create all json's methodes  
 [&cross;] user can (add tasks, show tasks per context or all, make them done, delete task)   
 -  use while true or match
