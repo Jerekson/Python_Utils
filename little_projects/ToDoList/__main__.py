@@ -1,9 +1,12 @@
-import logging, argparse
+import logging, argparse, sys
 from .utils.logging_config import logging_setup
 from .todolist import Todolist
+from .utils import utils
 
 def parser():
-    parser = argparse.ArgumentParser(description="To Do List")
+    parser = argparse.ArgumentParser(description="""To Do List \n
+        You have to enter at least one argument. \n
+        By default, if nothing is entered, a small menu will appear""")
 
     parser.add_argument("-show", dest="show", action="store_true", help="print all tasks", required=False)
     parser.add_argument("-show_spe", dest="show_spe", action="store_true", help="print specific type of tasks", required=False)
@@ -23,9 +26,14 @@ def main():
     # retrieve args
     args = parser()
 
+    # get number of element set 
+    argv_numb = len(sys.argv)
+    print(argv_numb)
+
     # Log configuration
     if args.v:
         log_level = logging.DEBUG
+        argv_numb = argv_numb - 1
     else:
         log_level = logging.INFO
 
@@ -33,10 +41,14 @@ def main():
     log = logging.getLogger("little_projects.ToDoList")
     log.debug("main log configured and start with theses args \n%s", args)
 
-    # Be sure there are only one argument (except v)
+    if(argv_numb > 2):
+        print("You have to set at least one argument, enter -h or -help for help")
+        log.info("the user has entered too many arguments %s", argv_numb)
+        sys.exit()
 
-    # maybe call methode's name with the same args's name ? 
-    # -done -> dest=task_done -> Todolist().task_done methode ? 
+    log.info("test")
+
+    
 
 if __name__ == "__main__":
     main()
