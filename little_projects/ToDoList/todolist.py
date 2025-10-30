@@ -3,7 +3,7 @@ import logging
 log = logging.getLogger(__name__)
 
 class Todolist:
-    def __init__(self, ):
+    def __init__(self):
         log.debug("Todolist class start")
 
     def add_task(self):
@@ -18,7 +18,7 @@ class Todolist:
     def update_task(self):
         log.debug("update_task methode start")
 
-    def delete_tasl(self):
+    def delete_task(self):
         log.debug("delete_task methode start")
 
     def task_done(self):

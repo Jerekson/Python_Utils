@@ -66,12 +66,15 @@ source venv/bin/activate
 ```
   
 For Windows  
-```CMD
-venv\Script\activate
-```  
-or with PowerShell  
+With PowerShell  
 ```PowerShell
 venv\Script\Activate.ps1
+```
+
+Or if it was created with Linux 
+```PowerShell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+. .\venv\bin\activate
 ```
 
 #### 3 - Install the package 
@@ -84,6 +87,22 @@ The package is now installed only for the actual project
 ```Bash
 (venv) deactivate
 ```
+
+##  source ./venv/bin/activate : command not found
+```Bash
+-bash: ./venv/bin/activate: line 4: syntax error near unexpected token `$'{\r''
+'bash: ./venv/bin/activate: line 4: `deactivate () { 
+```
+
+### Solution 1 
+```Bash
+sudo apt update
+sudo apt install dos2unix
+```  
+```Bash
+dos2unix ./venv/bin/activate
+```  
+
 
 # To improve 
 ## Create an executable package

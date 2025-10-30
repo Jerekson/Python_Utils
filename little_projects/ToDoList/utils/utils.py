@@ -1,19 +1,20 @@
 # litlle_projects.ToDoList.utils.utils
 import logging
+from simple_term_menu import TerminalMenu
 
 log = logging.getLogger(__name__)
 
-def show_menu():
-	log.debug("show_menu function start")
-	# Setting options
-	options = {
-	1: "show all tasks",
-	2: "show specific task",
-	3: "add new task",
-	4: "update task",
-	5: "task done ",
-	6: "quit"
-	}
-
-	# Top border
-	print("\n" + "-" * 35)
+def simple_select_menu():
+	log.debug("simple_select_menu function start")
+	options = [
+	"show all tasks",
+	"show a specific task",
+	"add a new task",
+	"update task",
+	"task done",
+	"delete task",
+	"quit"
+	]
+	terminal_menu = TerminalMenu(options)
+	menu_entry_index = terminal_menu.show()
+	return options[menu_entry_index]
