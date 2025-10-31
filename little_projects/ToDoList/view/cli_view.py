@@ -1,4 +1,3 @@
-# litlle_projects.ToDoList.utils.utils
 import logging
 from simple_term_menu import TerminalMenu
 
@@ -18,3 +17,4 @@ def simple_select_menu():
 	terminal_menu = TerminalMenu(options)
 	menu_entry_index = terminal_menu.show()
 	return options[menu_entry_index]
+

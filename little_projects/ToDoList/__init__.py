@@ -2,4 +2,4 @@
 
 __version__ = "0.1" # Initialisation
 
-from .modele.logging_config import *
+from .module.logging_config import *

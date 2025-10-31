@@ -1,7 +1,16 @@
 import logging
+from ..module import utils
+from ..view import cli_view
 
+log = logging.getLogger(__name__)
 
-result = utils.simple_select_menu()
+def cli_controler_run():
+    log.debug("cli_controler start")
+    result = cli_view.simple_select_menu()
+    
+
+'''
+
 if result == "show all tasks":
     pass
 
@@ -20,3 +29,4 @@ elif result == "task done":
 
 elif result == "quit":
     sys.exit()
+'''

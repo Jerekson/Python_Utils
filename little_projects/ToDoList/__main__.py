@@ -1,5 +1,6 @@
 import logging, argparse, sys
-from .modele.logging_config import logging_setup
+from .module.logging_config import logging_setup
+from .controler import cli_controler, gui_controler
 
 def parser():
     parser = argparse.ArgumentParser(description="""To Do List""")
@@ -28,7 +29,7 @@ def main():
         log.debug("mode IHM started")
     else:
         log.debug("mode console started")
-
+        cli_controler.cli_controler_run()
 
 if __name__ == "__main__":
     main()
