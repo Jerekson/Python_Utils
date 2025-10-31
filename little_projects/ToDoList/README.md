@@ -11,12 +11,10 @@ This project focuses more on application logic and data persistence.
 [&cross;] create json file with defaults values  
 [&cross;] create all json's methodes  
 [&cross;] user can (add tasks, show tasks per context or all, make them done, delete task)   
--  use while true or match
-
-[&cross;] 
 
 ## Functionnalities v2  
 [&cross;] add a reminder
 
 ## Functionnalities v3  
 [&cross;] IHM
+

@@ -1,16 +1,16 @@
 import logging, argparse, sys
 from .utils.logging_config import logging_setup
-from .todolist import Todolist
+from .todolist import *
 from .utils import utils
+from .task import Task
 
 def parser():
     parser = argparse.ArgumentParser(description="""To Do List""")
 
-    parser.add_argument("-mode-ihm", dest="ihm", action="store_true", help="start IHM mode", required=False)
+    parser.add_argument("--gui", dest="gui", action="store_true", help="start IHM mode")
     parser.add_argument("-v", action="store_true", help="Mode verbose")
 
     return parser.parse_args()
-
     
 
 def main():
@@ -27,25 +27,34 @@ def main():
     log = logging.getLogger("little_projects.ToDoList")
     log.debug("main log configured and start with theses args \n%s", args)
 
-    if args.ihm:
+    if args.gui:
         log.debug("mode IHM started")
     else:
         log.debug("mode console started")
         result = utils.simple_select_menu()
         if result == "show all tasks":
-            Todolist.get_tasks()
+            pass
+
         elif result == "show a specific task":
-            Todolist.get_specific_task()
+            pass
+
         elif result == "add a new task":
-            Todolist.add_task()
+            new_task_name = input("set a new task name")
+            print(new_task_name)
+
         elif result == "update task":
-            Todolist.update_task()
+            pass
+
         elif result == "task done":
-            Todolist.task_done()
-        elif result == "delete task":
-            Todolist.delete_task()
+            pass
+
         elif result == "quit":
             sys.exit()
+
+        # Si je veux créer une tâche, là je créer un nouvel objet. 
+        # Si je veux modifier une tâche, je créer un objet et je récupère ses valeurs
+
+        # Si je veux supprimer une tâche, je supprimer simplement la ligne
 
 
 if __name__ == "__main__":

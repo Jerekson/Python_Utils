@@ -36,6 +36,6 @@ def preview_files():
 
 if __name__ == "__main__":
 	# simple_select_menu()
-	# multiple_select_menu()
+	multiple_select_menu()
 	# preview_files()
 	pass
