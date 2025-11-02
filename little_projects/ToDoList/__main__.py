@@ -30,7 +30,10 @@ def main():
         log.debug("mode IHM started")
     else:
         log.debug("mode console started")
-        cli_controler.cli_controler_run()
+        try:
+            cli_controler.cli_controler_run()
+        except KeyboardInterrupt as e:
+            print("GoodBye")
 
 if __name__ == "__main__":
     main()

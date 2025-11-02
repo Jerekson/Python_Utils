@@ -1,5 +1,6 @@
 import logging, sys
 from simple_term_menu import TerminalMenu
+from ..module import utils
 
 log = logging.getLogger(__name__)
 
@@ -37,8 +38,22 @@ def main_menu():
 def add_task():
 	log.debug("add_task start")
 	print("Add new task selected")
-	task = {
-	"name": input("task name : "),
-	"description": input("description (facultative) : "),
-	"estimated_duration": int(input("estimated duration in minute (facultative) : "))
-	}
+	while True:
+		try:
+			task_name = utils.validation_str_value(input("task name : "), "name")
+			task_description = utils.validation_str_value(input("description (facultative) : "))
+
+			task_estimated_duration = int(input("estimated duration in minute (facultative) : ").strip() or "0")
+		except ValueError as e:
+			print(e)
+			continue
+		# TODO : create specific value error
+		#print("An incorrect value has been entered, an integer is expected")
+
+		return {
+		"name": task_name,
+		"description": task_description,
+		"estimated_duration": task_estimated_duration
+		} 
+		
+	print(task)

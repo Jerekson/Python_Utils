@@ -6,7 +6,8 @@ log = logging.getLogger(__name__)
 
 def add_new_task():
     log.debug("add_new_task start")
-    cli_view.add_task()
+    new_task = cli_view.add_task()
+    print(new_task)
 
 def task_done():
     log.debug("task_done start")
