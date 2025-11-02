@@ -42,7 +42,7 @@ def main_menu():
         terminal_menu = TerminalMenu(
             options,
             title="=== GESTIONNAIRE DE MOTS DE PASSE ===",
-            menu_cursor="-> ",
+            menu_cursorsimple_select_menu="-> ",
             menu_cursor_style=("fg_blue", "bold"),
             menu_highlight_style=("bg_gray", "fg_blue"),
         )

@@ -22,8 +22,9 @@ def main():
         log_level = logging.INFO
 
     logging_setup(level=log_level)
-    log = logging.getLogger("little_projects.ToDoList")
+    log = logging.getLogger("ToDoList")
     log.debug("main log configured and start with theses args \n%s", args)
+    log.debug(__name__)
 
     if args.gui:
         log.debug("mode IHM started")

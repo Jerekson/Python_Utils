@@ -4,7 +4,7 @@ from logging import NullHandler
 from datetime import datetime
 
 def add_null_handler():
-	logger = logging.getLogger("little_projects.ToDoList")
+	logger = logging.getLogger("ToDoList")
 	if not logger.handlers: # check if the logger has already a handler 
 		logger.addHandler(NullHandler())
 
@@ -32,7 +32,7 @@ def logging_setup(level=logging.INFO, handler_type="stream"):
     handler.setFormatter(log_format)
 
     # Retrieve the package root logger
-    package_logger = logging.getLogger("little_projects.ToDoList")
+    package_logger = logging.getLogger("ToDoList")
     package_logger.setLevel(level)
     package_logger.addHandler(handler)
     package_logger.propagate = False # avoids double emission
