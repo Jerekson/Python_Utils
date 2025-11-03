@@ -53,6 +53,23 @@ def detecter_todos(chemin_package):
 # Exemple d'utilisation
 # Remplacez 'mon_package' par le nom du répertoire de votre package
 detecter_todos('./mon_package') 
+
+
+
+
+--- Utilisation du script ---
+chemin_racine = "."  # Remplacez par le chemin de la racine de votre projet si ce n'est pas le répertoire actuel
+resultats = detecter_todos(chemin_racine)
+
+if resultats:
+    print("✨ TÂCHES EN ATTENTE (TODO/FIXME/NOTE) DANS LE PROJET :")
+    print("=" * 50)
+    for fichier, todos in resultats.items():
+        print(f"\n📁 Fichier: {fichier}")
+        for num_ligne, contenu in todos:
+            print(f"  -> Ligne {num_ligne}: {contenu}")
+else:
+    print("🎉 Aucun TODO/FIXME/NOTE trouvé dans les fichiers .py du projet.")
 ```
 
 **Conclusion :** **Les IDE** et leurs extensions restent la solution la plus intégrée et visuellement agréable. Cependant, un simple **`grep`** ou un **script Python** est idéal pour l'automatisation ou les projets légers.
