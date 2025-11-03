@@ -1,13 +1,19 @@
 import logging, sys
-from ..module import utils
+from ..module import utils, json_functions as json
 from ..view import cli_view
 
 log = logging.getLogger(__name__)
 
 def add_new_task():
     log.debug("add_new_task start")
+    # Ask users task's details 
     new_task = cli_view.add_task()
     print(new_task)
+    # Check if the json file exists. 
+    print(json.file_exists())
+    print(json.file_exists("ets"))
+
+    
 
 def task_done():
     log.debug("task_done start")

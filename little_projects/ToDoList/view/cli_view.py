@@ -35,9 +35,6 @@ def main_menu():
 		sys.exit(0)
 	return menu_entry_index
 
-class InvalidFormatError(InputValidationFailed):
-	pass
-
 def add_task():
 	log.debug("add_task start")
 	print("Add new task selected")
@@ -46,12 +43,10 @@ def add_task():
 			task_name = utils.validation_str_value(input("task name : "), "name")
 			task_description = utils.validation_str_value(input("description (facultative) : "))
 
-			task_estimated_duration = int(input("estimated duration in minute (facultative) : ").strip() or "0")
-		except InvalidFormatError(InputValidationFailed) as e:
+			task_estimated_duration = utils.validation_int_value(input("estimated duration in minute (facultative) : "),"TED")
+		except Exception as e:
 			print(e)
 			continue
-		# TODO : create specific value error
-		#print("An incorrect value has been entered, an integer is expected")
 
 		return {
 		"name": task_name,
@@ -59,4 +54,4 @@ def add_task():
 		"estimated_duration": task_estimated_duration
 		} 
 		
-	print(task)
+	

@@ -10,3 +10,14 @@ def validation_str_value(value, type=""):
 
     # TODO : Preventing injection and json injection 
     return value
+
+def validation_int_value(value, type=""):
+    log.debug(f"validation_int_value methode for value '{value}' started")
+    try:
+        value_int = int(value.strip() or "0")
+        return value_int
+    except ValueError:
+        if type == "TED":
+            raise ValueError("Nothing or a number was expected for the input field 'estimated duration in minute'")
+        else:
+            raise ValueError("Not and integer entered")
