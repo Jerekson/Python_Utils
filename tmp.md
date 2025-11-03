@@ -1,79 +1,62 @@
-Oui, il est tout à fait possible de détecter tous les `TODO` dans un package Python 3. 💡 Il existe plusieurs méthodes pour y parvenir.
+```python
+def get_integer_input(prompt_text: str) -> int:
+    # ... code de prompt_toolkit pour récupérer le texte ...
+    
+    # Tentative de conversion : c'est là que le ValueError se produit.
+    try:
+        return int(text_input)
+    except ValueError as e:
+        # C'est ici que l'erreur est créée (levée)
+        raise InvalidFormatError("L'entrée doit être un nombre entier valide.") from e
+```
+**Explication du `raise` :**
+1.  Si l'utilisateur entre `"ABC"`, la ligne `int("ABC")` lève une **`ValueError`** (l'erreur interne de Python pour "mauvaise valeur").
+2.  Le bloc `except ValueError as e:` intercepte cette erreur interne.
+3.  Au lieu de laisser l'erreur interne de Python remonter, nous lançons notre propre erreur claire : `raise InvalidFormatError(...)`.
 
------
+C'est l'étape de **lancement** de l'exception personnalisée.
 
-## 🔍 Méthodes pour détecter les TODOs
+## 3. Comment l'**Utiliser** (`except`) dans le Contrôleur
 
-### 1\. **Utilisation d'un IDE (Environnement de Développement Intégré)**
+Une fois que la Vue a lancé (`raise`) l'`InvalidFormatError`, elle remonte au Contrôleur, qui est l'endroit où nous devons la capturer pour redémarrer la boucle de saisie.
 
-La méthode la plus simple est d'utiliser les fonctionnalités intégrées de votre IDE :
-
-  * **PyCharm** (et d'autres IDE basés sur IntelliJ) possède une fenêtre **"TODO"** dédiée qui scanne automatiquement votre projet à la recherche de commentaires contenant `TODO`, `FIXME`, et d'autres motifs configurables.
-  * **VS Code** a des extensions comme **"Todo Tree"** qui agrègent tous les `TODO` et `FIXME` de votre espace de travail dans une vue latérale pratique.
-
-### 2\. **Outils en Ligne de Commande (CLI)**
-
-Pour les scripts ou l'intégration dans des flux CI/CD, vous pouvez utiliser des outils CLI :
-
-  * **`grep` (ou `findstr` sous Windows) :** C'est l'approche la plus basique et souvent la plus rapide. Vous pouvez exécuter une commande pour rechercher récursivement dans tous les fichiers Python.
-
-    ```bash
-    grep -r --include='*.py' 'TODO' /chemin/vers/votre/package
-    ```
-
-      * `-r` : recherche récursive.
-      * `--include='*.py'` : ne recherche que dans les fichiers `.py`.
-
-  * **Outils d'analyse statique :** Certains outils d'analyse de code (linters) peuvent être configurés pour signaler les TODOs, bien que ce ne soit pas leur objectif principal.
-
-### 3\. **Script Python personnalisé**
-
-Vous pouvez écrire un petit script pour parcourir votre arborescence de fichiers et rechercher la chaîne de caractères `TODO` dans les commentaires.
+Voici comment le Contrôleur (`controllers/cli.py`, concept) utiliserait cette exception :
 
 ```python
-import os
-import re
+# Fichier : controllers/cli.py (concept)
 
-def detecter_todos(chemin_package):
-    """Parcourt le package et affiche tous les TODOs trouvés."""
-    todo_pattern = re.compile(r'#.*TODO', re.IGNORECASE)
-    
-    for root, _, files in os.walk(chemin_package):
-        for file in files:
-            if file.endswith('.py'):
-                chemin_complet = os.path.join(root, file)
-                try:
-                    with open(chemin_complet, 'r', encoding='utf-8') as f:
-                        for line_num, line in enumerate(f, 1):
-                            if todo_pattern.search(line):
-                                print(f"📍 {chemin_complet}:{line_num}: {line.strip()}")
-                except Exception as e:
-                    print(f"Erreur de lecture du fichier {chemin_complet}: {e}")
+# 1. On importe l'exception depuis le module
+from ..modules.exceptions import InvalidFormatError, EmptyInputError, InputValidationFailed
+from ..views.cli import display_message, get_integer_input
 
-# Exemple d'utilisation
-# Remplacez 'mon_package' par le nom du répertoire de votre package
-detecter_todos('./mon_package') 
+def handle_settings_flow():
+    while True: # Boucle pour re-essayer en cas d'erreur
+        try:
+            # 2. On appelle la fonction de la Vue qui peut lever l'erreur
+            frequency = get_integer_input("Fréquence de changement (jours) : ")
+            
+            # Si le code arrive ici, la saisie est réussie
+            break 
+            
+        except InvalidFormatError as e:
+            # ⭐️ 3. On capture spécifiquement l'erreur de format ⭐️
+            display_message(str(e), is_error=True)
+            continue # Recommence la boucle 'while True'
 
+        except (EmptyInputError, InputValidationFailed) as e:
+            # On capture les autres erreurs de validation (ex: champ vide)
+            display_message(str(e), is_error=True)
+            continue
+            
+        except (EOFError, KeyboardInterrupt):
+            # Annulation
+            return
 
+### Synthèse
 
+En résumé, l'utilisation de l'`InvalidFormatError` se fait en trois étapes :
 
---- Utilisation du script ---
-chemin_racine = "."  # Remplacez par le chemin de la racine de votre projet si ce n'est pas le répertoire actuel
-resultats = detecter_todos(chemin_racine)
-
-if resultats:
-    print("✨ TÂCHES EN ATTENTE (TODO/FIXME/NOTE) DANS LE PROJET :")
-    print("=" * 50)
-    for fichier, todos in resultats.items():
-        print(f"\n📁 Fichier: {fichier}")
-        for num_ligne, contenu in todos:
-            print(f"  -> Ligne {num_ligne}: {contenu}")
-else:
-    print("🎉 Aucun TODO/FIXME/NOTE trouvé dans les fichiers .py du projet.")
+1.  **Détection (dans la Vue) :** La `ValueError` interne est capturée autour de l'appel à `int()`.
+2.  **Lancement (dans la Vue) :** La `ValueError` est remplacée par `raise InvalidFormatError(...)`.
+3.  **Gestion (dans le Contrôleur) :** L'`except InvalidFormatError` est utilisé pour cibler l'erreur et redémarrer la boucle.
 ```
-
-**Conclusion :** **Les IDE** et leurs extensions restent la solution la plus intégrée et visuellement agréable. Cependant, un simple **`grep`** ou un **script Python** est idéal pour l'automatisation ou les projets légers.
-
------
-
-Voulez-vous que je vous aide à adapter l'une de ces commandes ou le script Python à la structure de votre package ?
