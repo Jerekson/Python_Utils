@@ -3,21 +3,29 @@ from pathlib import Path
 
 log = logging.getLogger(__name__)
 
-dir_path = Path(__file__).resolve().parent
-json_file_path = dir_path.parent / "data/tasks_save.json"
+
 
 def create_json_file():
     log.debug("create_json_file methode started")
 
-def file_exists(file = json_file_path):
+def get_default_json_path():
+    log.debug("get_default_json_path start")
+    dir_path = Path(__file__).resolve().parent
+    return dir_path.parent / "data"
+
+def get_default_json_path_lists():
+    log.debug("get_default_json_lists start")
+    base_dir = get_default_json_path()
+    json_path_list = list(base_dir.glob('*.json'))
+    return json_path_list
+
+def file_exists(file):
     log.debug(f"file_exists started for file {file}")
     isfile = Path(file).is_file()
     if isfile:
         return isfile
-    elif file == json_file_path:
-        return "file don't exists, but can be create automatically"
     else:
-        return "Ohlolo it will be relou"
+        return "file not found"
 
 
 def add_new_task():

@@ -54,4 +54,22 @@ def add_task():
 		"estimated_duration": task_estimated_duration
 		} 
 		
-	
+def get_json_file(default_json_list):
+	log.debug("get_json_file started")
+	# Afficher toutes les bases mais proposer dès le premier choix un chemin 'personnalisé'
+	options = [file.name for file in default_json_list]
+	options.append("create new task list")
+	options.append("Select an other specific task list (json file only)")
+
+	# create the view 
+	terminal_menu = TerminalMenu(
+		options,
+		title="=== TO DO list === \nSelect the task list",
+        menu_cursor="-> ",
+        menu_cursor_style=("fg_blue", "bold"),
+        menu_highlight_style=("bg_gray", "fg_blue"),
+		)
+
+	json_select_index = terminal_menu.show()
+	print(json_select_index)
+	return json_select_index

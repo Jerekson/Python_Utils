@@ -9,9 +9,6 @@ def add_new_task():
     # Ask users task's details 
     new_task = cli_view.add_task()
     print(new_task)
-    # Check if the json file exists. 
-    print(json.file_exists())
-    print(json.file_exists("ets"))
 
     
 
@@ -29,9 +26,17 @@ def show_specific_task():
 
 def cli_controler_run():
     log.debug("cli_controler start")
-    result = cli_view.main_menu()
+    
+    # Get json file list
+    json_list = json.get_default_json_path_lists()
+    print(len(json_list))
+    json_select_index = cli_view.get_json_file(json_list)
+    print(json_list[json_select_index])
+    sys.exit()
 
-    # Dictionary linking the option index to the corresponding function
+    # task selection
+    result = cli_view.main_menu()
+    # Dictionary linking the option index to the corresponding function for tasks actions
     actions = {
     0: add_new_task,
     1: task_done,
