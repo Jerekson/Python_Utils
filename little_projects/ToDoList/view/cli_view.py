@@ -54,12 +54,12 @@ def add_task():
 		"estimated_duration": task_estimated_duration
 		} 
 		
-def get_json_file(default_json_list):
+def select_json_file(default_json_list, other_options):
 	log.debug("get_json_file started")
 	# Afficher toutes les bases mais proposer dès le premier choix un chemin 'personnalisé'
 	options = [file.name for file in default_json_list]
-	options.append("create new task list")
-	options.append("Select an other specific task list (json file only)")
+	for new_option in other_options:		
+		options.append(str(new_option))
 
 	# create the view 
 	terminal_menu = TerminalMenu(
@@ -71,5 +71,5 @@ def get_json_file(default_json_list):
 		)
 
 	json_select_index = terminal_menu.show()
-	print(json_select_index)
+	
 	return json_select_index
