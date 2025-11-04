@@ -47,6 +47,8 @@ def get_json_file_run():
                 default_dir = json.get_default_json_dir_path()
                 print(default_dir)
                 json.create_json_file(default_dir)
+        elif specific_select == "Select an other specific task list (json file only)":
+            pass
 
         # if its a specific file, check if it's a file created by this program. If not
         # prevent the user that this program it's not responsible of the alteration of the next 
@@ -95,7 +97,6 @@ def cli_controler_run():
     try:
         json_file = get_json_file_run()
         json_file_data = json.get_json_file_data(json_file)
-
         
         # first, check if the json file was created by this program. 
         # If not, prevent the user
@@ -110,6 +111,9 @@ def cli_controler_run():
                 retry()  
     except AssertionError as e:
         sys.exit(0)
+    except AttributeError as e:
+        log.error(e)
+        sys.exit()
     except Exception as e:
         log.error(type(e))
         retry()

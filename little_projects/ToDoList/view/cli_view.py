@@ -55,7 +55,7 @@ def add_task():
 		} 
 		
 def select_json_file(default_json_list, other_options):
-	log.debug("get_json_file started")
+	log.debug("select_json_file started")
 	# Afficher toutes les bases mais proposer dès le premier choix un chemin 'personnalisé'
 	options = [file.name for file in default_json_list]
 	for new_option in other_options:		

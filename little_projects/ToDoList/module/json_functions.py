@@ -20,7 +20,7 @@ def set_default_data(json_file_path):
     except Exception as e:
         log.error(e)   
 
-def create_json_file():
+def create_json_file(dir_path):
     log.debug("create_json_file methode started")
 
 def get_default_json_dir_path():
@@ -40,8 +40,12 @@ def get_json_file_data(json_file_path):
         content = json_file_path.read_text(encoding="utf-8")
         data = json.loads(content)
         return data
+    except AttributeError as e:
+        log.error(f"Attribute error for file \n{json_file_path}")
+        raise e
     except FileNotFoundError as e:
         log.error("File not Found")
+        raise e
     except json.decoder.JSONDecodeError as e:
         log.error(f"file cannot be decoded \n{json_file_path}\nYou have to select a good one")
         raise e
