@@ -1,5 +1,6 @@
-import json, logging
+import json, logging, sys
 from pathlib import Path
+from .exceptions import CriticalAppError
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +43,9 @@ def get_json_file_data(json_file_path):
     except FileNotFoundError as e:
         log.error("File not Found")
     except json.decoder.JSONDecodeError as e:
-        log.error(f"file cannot be decoded \n{json_file_path}")
+        log.error(f"file cannot be decoded \n{json_file_path}\nYou have to select a good one")
+        raise e
+        
 
 def file_exists(file):
     log.debug(f"file_exists started for file {file}")

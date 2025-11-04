@@ -11,8 +11,6 @@ def add_new_task():
     new_task = cli_view.add_task()
     print(new_task)
 
-    
-
 def task_done():
     log.debug("task_done start")
 
@@ -42,17 +40,25 @@ def get_json_file_run():
     else: # TODO : One of other_options
         # if its new, then create it.
         specific_select = other_options[json_select_index - len(json_default_list)]
+        print(specific_select)
+        if specific_select == "create new task list":
+            response = input("Do you want to create the file in the default directory ? (yes) / (no) \n")
+            if response == "yes" or response == "y":
+                default_dir = json.get_default_json_dir_path()
+                print(default_dir)
+                json.create_json_file(default_dir)
 
         # if its a specific file, check if it's a file created by this program. If not
         # prevent the user that this program it's not responsible of the alteration of the next 
         # json file. a ask the user if it's really ok for that. 
-    return 'TODO : return the file'
 
 def check_json_file_origin(json_file_data):
     log.debug("check_json_file_origin start")
     try: 
-        # TODO : read the file to see the entete
-        return True
+        if json_file_data["metadata"]["Author"] == "ToDoList_original_creation":
+            return True
+        else:
+            return False
     except Exception as e:
         log.error(e)
 
@@ -73,25 +79,44 @@ def select_task_action():
         log.debug("result in action True")
         actions[result]()
 
+def retry():
+    try:
+        response = input("Would you retry ? (yes) / (no)\n")
+        if response == "yes" or response == "y":
+            cli_controler_run()
+        else:
+            sys.exit()
+    except Exception as e:
+        log.error(e.__class__)
+
 def cli_controler_run():
     log.debug("cli_controler start")
-    
-    json_file = get_json_file_run()
-    json_file_data = json.get_json_file_data(json_file)
 
-    
-    sys.exit()
+    try:
+        json_file = get_json_file_run()
+        json_file_data = json.get_json_file_data(json_file)
 
-    # first, check if the json file was created by this program. 
-    # If not, prevent the user
-    # print(json_file_data["metadata"]["Author"])
-    if check_json_file_origin(json_file_data):
-        log.info("this file is good")
-    else:
-        log.info("file not created by this ToDoList program")
-        response = input("Do you still want to use this file ?\n")       
-    sys.exit()
+        
+        # first, check if the json file was created by this program. 
+        # If not, prevent the user
+        if check_json_file_origin(json_file_data):
+            log.info("this file is good")
+        else:
+            log.info("file not created by this ToDoList program")
+            response = input("Do you still want to use this file ? (yes) / (no) \n")
+            if response == "yes" or response == "y":
+                log.warning("You have selected (yes)")
+            else:
+                retry()  
+    except AssertionError as e:
+        sys.exit(0)
+    except Exception as e:
+        log.error(type(e))
+        retry()
+    
     select_task_action()
+    
+    
 
 
 '''

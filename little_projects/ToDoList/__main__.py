@@ -34,6 +34,7 @@ def main():
             cli_controler.cli_controler_run()
         except KeyboardInterrupt as e:
             print("GoodBye")
+            sys.exit(0)
 
 if __name__ == "__main__":
     main()
