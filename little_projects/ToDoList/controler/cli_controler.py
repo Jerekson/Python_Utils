@@ -46,17 +46,26 @@ def get_json_file_run():
             log.debug(f"the new task list file is : {response}")
             if response[0]:
                 default_dir = json.get_default_json_dir_path()
-                json.create_json_file(default_dir, response[1])
+                json_file_path = Path(default_dir) / Path(response[1])
+                if json_file_path.is_file():
+                    log.error("file already exists")
+                    retry()
+                json.create_json_file(json_file_path, response[1])
+                return json_file_path
             else:
-                # TODO : retrieve new dir path then check it. 
-                pass
+                json_file_path = Path(response[2]) / Path(response[1])
+                if json_file_path.is_file():
+                    log.error("file already exists")
+                    retry()
+                json.create_json_file(json_file_path, response[1])
+                return json_file_path
         elif specific_select == "Select an other specific task list (json file only)":
-            # TODO : do this part. 
-            pass
-
-        # if its a specific file, check if it's a file created by this program. If not
-        # prevent the user that this program it's not responsible of the alteration of the next 
-        # json file. a ask the user if it's really ok for that. 
+            while True:
+                json_file_path = Path(cli_view.select_specific_json_file_path())
+                if json_file_path.is_file() and json_file_path.suffix.lower() == ".json":
+                    return json_file_path
+                else:
+                    print("File Not Found")
 
 def check_json_file_origin(json_file_data):
     log.debug("check_json_file_origin start")
@@ -65,8 +74,10 @@ def check_json_file_origin(json_file_data):
             return True
         else:
             return False
+    except KeyError as e:
+        log.debug(f"Dont find 'metadata'\n{e}")
     except Exception as e:
-        log.error(e)
+        log.error(type(e))
 
 def select_task_action():
     log.debug("select_task_action start")
@@ -100,17 +111,11 @@ def cli_controler_run():
 
     try:
         json_file = get_json_file_run()
-        sys.exit() # TODO : done the previous part. get a json file. 
-
-
         json_file_data = json.get_json_file_data(json_file)
-
 
         # first, check if the json file was created by this program. 
         # If not, prevent the user
-        if check_json_file_origin(json_file_data):
-            log.info("this file is good")
-        else:
+        if not check_json_file_origin(json_file_data):
             log.info("file not created by this ToDoList program")
             response = input("Do you still want to use this file ? (yes) / (no) \n")
             if response == "yes" or response == "y":
@@ -128,14 +133,3 @@ def cli_controler_run():
     
     select_task_action()
     
-    
-
-
-'''
-1 - je récupère le json file. bêtement. 
-2 - Je vérifie s'il est à moi. 
-3 - si c'est le cas. Je passe au point 4. 
-3.5 - Si ce n'est pas le cas. Je demande si je peux vraiment l'utiliser. 
-4 - Je pose mes questions. 
-'''
-

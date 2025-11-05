@@ -89,3 +89,6 @@ def prepare_json_file_path():
 			if utils.control_dir_path_entry(dir_path):
 				return [False, filename, dir_path]
 			
+def select_specific_json_file_path():
+	result = input("enter the specific task list path \n")
+	return result

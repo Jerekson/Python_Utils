@@ -3,19 +3,18 @@ from pathlib import Path
 
 log = logging.getLogger(__name__)
 
-def create_json_file(dir_path, file_name):
+def create_json_file(json_file_path, file_name):
     log.debug("create_json_file methode started")
-    json_file_path = Path(dir_path) / file_name
+    today_date = datetime.datetime.now().strftime("%Y-%m-%d")
     default_data = {
         "metadata" :{
                 "Author": "ToDoList_original_creation",
                 "file_name": str(file_name),
-                "created_date": datetime.date(),
+                "created_date": today_date,
                 "description": "TODO : set description"
             }
     }
     try:
-        log.info("try start")
         json_file_path.write_text(json.dumps(default_data, indent=4), encoding="utf-8")
         log.debug("file created and default data set")
     except Exception as e:

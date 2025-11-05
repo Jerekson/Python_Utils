@@ -32,11 +32,10 @@ def control_json_filename(filename):
             print(f"One of these invalid caractere was entered \n{invalid_cara}")
             return False
         # control file lenght
-        if len(filename) >= 3:
-            return True
-        else:
+        if len(filename) < 3:
             print("The task list must have at least 3 caracteres")
             return False
+        return True
     except Exception as e:
         log.error(type(e))
 
