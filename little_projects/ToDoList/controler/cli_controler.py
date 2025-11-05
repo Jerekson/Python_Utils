@@ -37,17 +37,21 @@ def get_json_file_run():
     # if the index is in the default json list
     if json_select_index < len(json_default_list):
         return Path(json_default_list[json_select_index])
-    else: # TODO : One of other_options
+    else:
         # if its new, then create it.
         specific_select = other_options[json_select_index - len(json_default_list)]
         print(specific_select)
         if specific_select == "create new task list":
-            response = input("Do you want to create the file in the default directory ? (yes) / (no) \n")
-            if response == "yes" or response == "y":
+            response = cli_view.get_where_create_json_file()
+            if response[0]:
                 default_dir = json.get_default_json_dir_path()
                 print(default_dir)
                 json.create_json_file(default_dir)
+            else:
+                # TODO : retrieve new dir path then check it. 
+                pass
         elif specific_select == "Select an other specific task list (json file only)":
+            # TODO : do this part. 
             pass
 
         # if its a specific file, check if it's a file created by this program. If not
@@ -89,15 +93,19 @@ def retry():
         else:
             sys.exit()
     except Exception as e:
-        log.error(e.__class__)
+        log.error(type(e))
 
 def cli_controler_run():
     log.debug("cli_controler start")
 
     try:
         json_file = get_json_file_run()
+        sys.exit() # TODO : done the previous part. get a json file. 
+
+
         json_file_data = json.get_json_file_data(json_file)
-        
+
+
         # first, check if the json file was created by this program. 
         # If not, prevent the user
         if check_json_file_origin(json_file_data):
@@ -108,14 +116,14 @@ def cli_controler_run():
             if response == "yes" or response == "y":
                 log.warning("You have selected (yes)")
             else:
-                retry()  
-    except AssertionError as e:
-        sys.exit(0)
+                retry() 
+    except (EOFError,KeyboardInterrupt, AssertionError, TypeError):
+        sys.exit(0) 
     except AttributeError as e:
         log.error(e)
         sys.exit()
     except Exception as e:
-        log.error(type(e))
+        log.debug(type(e))
         retry()
     
     select_task_action()

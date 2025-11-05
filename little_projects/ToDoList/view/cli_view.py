@@ -73,3 +73,16 @@ def select_json_file(default_json_list, other_options):
 	json_select_index = terminal_menu.show()
 	
 	return json_select_index
+
+def get_where_create_json_file():
+	log.debug("get_where_create_json_file start")
+	response = input("Do you want to create the file in the default directory ? (yes) / (no) \n")
+	if response == "yes" or response == "y":
+		filename = input("Set new list tasks name \n")
+		if filename:
+			return [True , filename]
+		else: 
+			print("The filename cannot be empty")
+	else: # TODO 
+		response = input("")
+		return [False, "filename", "newdirpath"]

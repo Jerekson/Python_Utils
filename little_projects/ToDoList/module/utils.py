@@ -21,3 +21,7 @@ def validation_int_value(value, type=""):
             raise ValueError("Nothing or a number was expected for the input field 'estimated duration in minute'")
         else:
             raise ValueError("Not and integer entered")
+
+def control_json_filename(filename):
+    log.debug("control_json_filename start")
+    return True

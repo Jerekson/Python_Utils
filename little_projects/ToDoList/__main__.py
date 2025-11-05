@@ -32,8 +32,7 @@ def main():
         log.debug("mode console started")
         try:
             cli_controler.cli_controler_run()
-        except KeyboardInterrupt as e:
-            print("GoodBye")
+        except (EOFError,KeyboardInterrupt):
             sys.exit(0)
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 import json, logging, sys
 from pathlib import Path
-from .exceptions import CriticalAppError
 
 log = logging.getLogger(__name__)
 
