@@ -1,67 +1,102 @@
-# Assurez-vous d'avoir installé ceci dans votre venv : pip install simple-term-menu
-from simple_term_menu import TerminalMenu
-import sys
+import os
+from pathlib import Path
 
-# Fonctions d'action (simulées pour l'exemple)
-def create_password_action():
-    print("\n[INFO] 🔑 Démarrage de la création d'un nouveau mot de passe...")
-    input("Appuyez sur Entrée pour continuer...")
+# --- Exceptions minimales (pour l'exemple) ---
+class InvalidPathError(Exception):
+    """Erreur levée si le chemin ou le nom de fichier est invalide."""
+    pass
 
-def display_entries_action():
-    print("\n[INFO] 📋 Affichage des 5 dernières entrées de la BDD...")
-    input("Appuyez sur Entrée pour continuer...")
-
-def delete_entry_action():
-    print("\n[INFO] 🗑️ Suppression d'une entrée : besoin de l'ID...")
-    input("Appuyez sur Entrée pour continuer...")
-
-def main_menu():
+def validate_and_get_filepath(prompt_message: str, allow_new_file: bool) -> Path:
+    """
+    Demande à l'utilisateur un chemin et un nom de fichier, 
+    puis vérifie leur validité.
     
-    # 1. Définir les options du menu
-    # L'option 'Quitter' est la dernière pour une sortie propre.
-    options = [
-        "Créer un nouveau mot de passe",
-        "Afficher les entrées de la BDD",
-        "Supprimer une entrée",
-        "Configurer l'application",
-        "Quitter l'application"
-    ]
+    Args:
+        prompt_message (str): Le message à afficher à l'utilisateur.
+        allow_new_file (bool): Si True, le fichier n'a pas besoin d'exister.
+        
+    Returns:
+        Path: L'objet Path validé.
+        
+    Raises:
+        InvalidPathError: Si la validation échoue.
+    """
     
-    # Dictionnaire liant l'index de l'option à la fonction correspondante
-    actions = {
-        0: create_password_action,
-        1: display_entries_action,
-        2: delete_entry_action,
-        # 3: configuration_action, # Vous ajouterez cette fonction
-        4: lambda: sys.exit(0)  # Utilisation d'une lambda pour quitter proprement
-    }
-    
-    # 2. Boucle principale du menu
     while True:
-        # Création et affichage du menu interactif
-        terminal_menu = TerminalMenu(
-            options,
-            title="=== GESTIONNAIRE DE MOTS DE PASSE ===",
-            menu_cursorsimple_select_menu="-> ",
-            menu_cursor_style=("fg_blue", "bold"),
-            menu_highlight_style=("bg_gray", "fg_blue"),
-        )
-        
-        # Affiche le menu et attend la sélection de l'utilisateur
-        menu_entry_index = terminal_menu.show()
-        
-        # 3. Exécuter l'action basée sur l'index sélectionné
-        if menu_entry_index is None: 
-            # Si l'utilisateur appuie sur Ctrl+C ou Ctrl+D
-            print("\n👋 Sortie forcée.")
-            sys.exit(0)
-            
-        if menu_entry_index in actions:
-            actions[menu_entry_index]()
-        else:
-            # Si l'index ne correspond pas à une fonction définie (par exemple, option 3 ou 4)
-            print(f"\n[ATTENTION] L'option {options[menu_entry_index]} n'est pas encore implémentée.")
-            input("Appuyez sur Entrée pour retourner au menu principal...")
+        try:
+            # 1. SAISIE UTILISATEUR
+            path_input = input(prompt_message).strip()
 
-if __name__ == "__main__":
-    main_menu()
+            # --- CONTRÔLE 1 : Nom du Fichier et Extension ---
+            if not path_input:
+                raise InvalidPathError("Le chemin ne peut pas être vide.")
+            
+            p = Path(path_input)
+            
+            # Vérifier l'extension
+            if p.suffix.lower() != '.json':
+                raise InvalidPathError("Le fichier doit avoir l'extension '.json'.")
+                
+            # --- CONTRÔLE 2 : Caractères Dangereux (Injection) ---
+            # Pour se protéger des injections de commande OS:
+            # On vérifie l'absence de caractères de séparation de commandes 
+            # (souvent utilisés par des attaquants dans des chemins malveillants).
+            if any(c in p.name for c in (';', '&', '|', '`', '$', '(', ')')):
+                raise InvalidPathError("Nom de fichier invalide ou potentiellement dangereux (caractères spéciaux).")
+
+
+            # --- CONTRÔLE 3 : Localisation du Fichier ---
+            
+            # Si nous voulons lire un fichier existant (allow_new_file=False)
+            if not allow_new_file:
+                # Vérifie que le fichier existe
+                if not p.is_file():
+                    raise InvalidPathError(f"Le fichier '{path_input}' n'existe pas ou n'est pas un fichier.")
+                
+            # Si nous créons un nouveau fichier (allow_new_file=True)
+            if allow_new_file:
+                # Vérifie que le répertoire parent existe (la localisation)
+                parent_dir = p.parent
+                if not parent_dir.is_dir() and parent_dir != Path('.'):
+                    # p.parent retourne '.' si l'utilisateur entre juste 'new.json'.
+                    # On permet cela, mais on s'assure que si un répertoire est spécifié, il existe.
+                    raise InvalidPathError(f"Le répertoire parent '{parent_dir}' n'existe pas.")
+
+            # Si toutes les vérifications passent
+            return p
+            
+        except InvalidPathError as e:
+            print(f"[ERREUR VALIDATION] {e}. Veuillez réessayer.")
+            continue
+        
+        except (EOFError, KeyboardInterrupt):
+            print("\nOpération annulée.")
+            raise
+
+# --- Exemple d'Utilisation ---
+
+def demonstrate_validation():
+    print("--- Démarrage de la démonstration de validation ---")
+    
+    # Cas 1 : Création d'un nouveau fichier (allow_new_file=True)
+    try:
+        new_path = validate_and_get_filepath(
+            prompt_message="Entrez un chemin pour CRÉER un fichier JSON (ex: config/new.json) : ",
+            allow_new_file=True
+        )
+        print(f"\n[SUCCÈS] Chemin de création validé: {new_path}")
+    except Exception:
+        print("[ÉCHEC] Arrêt du test.")
+        
+    # Cas 2 : Lecture d'un fichier existant (allow_new_file=False)
+    try:
+        existing_path = validate_and_get_filepath(
+            prompt_message="Entrez le chemin d'un fichier EXISTANT (ex: path_validator.py) : ",
+            allow_new_file=False
+        )
+        print(f"\n[SUCCÈS] Chemin de lecture validé: {existing_path}")
+    except Exception:
+        print("[ÉCHEC] Arrêt du test.")
+
+if __name__ == '__main__':
+    demonstrate_validation()

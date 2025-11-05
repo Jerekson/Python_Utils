@@ -1,26 +1,25 @@
-import json, logging, sys
+import json, logging, sys, datetime
 from pathlib import Path
 
 log = logging.getLogger(__name__)
 
-def set_default_data(json_file_path):
-    log.debug("set_default_data start")
+def create_json_file(dir_path, file_name):
+    log.debug("create_json_file methode started")
+    json_file_path = Path(dir_path) / file_name
     default_data = {
         "metadata" :{
                 "Author": "ToDoList_original_creation",
-                "file_name": "TODO : set file name",
-                "created_date": "TODO : get and set today's date",
+                "file_name": str(file_name),
+                "created_date": datetime.date(),
                 "description": "TODO : set description"
             }
     }
     try:
+        log.info("try start")
         json_file_path.write_text(json.dumps(default_data, indent=4), encoding="utf-8")
-        log.debug("default data set")
+        log.debug("file created and default data set")
     except Exception as e:
-        log.error(e)   
-
-def create_json_file(dir_path):
-    log.debug("create_json_file methode started")
+        log.error(e)
 
 def get_default_json_dir_path():
     log.debug("get_default_json_path start")

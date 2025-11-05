@@ -1,5 +1,6 @@
 # litlle_projects.ToDoList.utils.utils
-import logging
+import logging, os
+from pathlib import Path
 
 log = logging.getLogger(__name__)
 
@@ -24,4 +25,46 @@ def validation_int_value(value, type=""):
 
 def control_json_filename(filename):
     log.debug("control_json_filename start")
-    return True
+    invalid_cara = [',',';','/','\\', '&', '|', '!', '`', '$', '(', ')','*','{','[','`','^','}','£','¨','%','µ','§',':','?',']','}']
+    try:
+        # First control
+        if any(c in filename for c in invalid_cara):
+            print(f"One of these invalid caractere was entered \n{invalid_cara}")
+            return False
+        # control file lenght
+        if len(filename) >= 3:
+            return True
+        else:
+            print("The task list must have at least 3 caracteres")
+            return False
+    except Exception as e:
+        log.error(type(e))
+
+
+def control_dir_path_entry(dir_path):
+    log.debug("contro_dir_path start")
+    dir_path = Path(dir_path)
+    try:
+        # is dir exists ? 
+        if dir_path.is_dir():
+            print(dir_path.resolve())
+        else:
+            print(f"The path '{dir_path}' is invalid")
+            return False
+            
+        #Does the user have the right to read and write in this dir ? 
+        if os.access(dir_path, os.R_OK) and os.access(dir_path, os.W_OK):
+            return True
+        else:
+            print("You have no right to read and/or write in this directory")
+            return False
+        
+    except Exception as e:
+        raise e
+
+def control_task_entry(entry):
+    log.debug("control_task_entry start")
+    try:
+        return True
+    except Exception as e:
+        raise e

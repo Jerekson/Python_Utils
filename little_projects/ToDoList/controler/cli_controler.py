@@ -40,13 +40,13 @@ def get_json_file_run():
     else:
         # if its new, then create it.
         specific_select = other_options[json_select_index - len(json_default_list)]
-        print(specific_select)
+        log.debug(f"Specific selection -> {specific_select}")
         if specific_select == "create new task list":
-            response = cli_view.get_where_create_json_file()
+            response = cli_view.prepare_json_file_path()
+            log.debug(f"the new task list file is : {response}")
             if response[0]:
                 default_dir = json.get_default_json_dir_path()
-                print(default_dir)
-                json.create_json_file(default_dir)
+                json.create_json_file(default_dir, response[1])
             else:
                 # TODO : retrieve new dir path then check it. 
                 pass

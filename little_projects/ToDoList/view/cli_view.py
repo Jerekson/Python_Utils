@@ -56,7 +56,6 @@ def add_task():
 		
 def select_json_file(default_json_list, other_options):
 	log.debug("select_json_file started")
-	# Afficher toutes les bases mais proposer dès le premier choix un chemin 'personnalisé'
 	options = [file.name for file in default_json_list]
 	for new_option in other_options:		
 		options.append(str(new_option))
@@ -74,15 +73,19 @@ def select_json_file(default_json_list, other_options):
 	
 	return json_select_index
 
-def get_where_create_json_file():
+def prepare_json_file_path():
 	log.debug("get_where_create_json_file start")
-	response = input("Do you want to create the file in the default directory ? (yes) / (no) \n")
-	if response == "yes" or response == "y":
+	while True:
 		filename = input("Set new list tasks name \n")
-		if filename:
+		# filename_controled = 
+		if not utils.control_json_filename(filename):
+			continue
+		filename = filename.lower()+'.json'
+		response = input("Do you want to create the file in the default directory ? (yes) / (no) \n").strip().lower()
+		if response == "yes" or response == "y":
 			return [True , filename]
-		else: 
-			print("The filename cannot be empty")
-	else: # TODO 
-		response = input("")
-		return [False, "filename", "newdirpath"]
+		elif response == "no" or response == "n": 
+			dir_path = input("Set the directory path\n")
+			if utils.control_dir_path_entry(dir_path):
+				return [False, filename, dir_path]
+			
