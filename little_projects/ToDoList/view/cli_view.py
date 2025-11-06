@@ -1,6 +1,7 @@
 import logging, sys
 from simple_term_menu import TerminalMenu
 from ..module import utils
+from tabulate import tabulate
 
 log = logging.getLogger(__name__)
 
@@ -9,10 +10,8 @@ def main_menu():
 	# Set options 
 	options = [
 	"add a new task",
-	"task done",
-	"update task",
 	"show all tasks",
-	"show a specific task",
+	"select task from this list",
 	"quit"
 	]
 
@@ -27,7 +26,7 @@ def main_menu():
 
 	# print the view and get the choice
 	menu_entry_index = terminal_menu.show()
-
+	log.debug(f"menu entry index : {menu_entry_index}")
 	# actions based on the entry 
 	if menu_entry_index is None: 
 		# if the user enter Ctrl+C or Ctrl+D
@@ -42,7 +41,6 @@ def add_task():
 		try:
 			task_name = utils.validation_str_value(input("task name : "), "name")
 			task_description = utils.validation_str_value(input("description (facultative) : "))
-
 			task_estimated_duration = utils.validation_int_value(input("estimated duration in minute (facultative) : "),"TED")
 		except Exception as e:
 			print(e)
@@ -51,7 +49,7 @@ def add_task():
 		return {
 		"name": task_name,
 		"description": task_description,
-		"estimated_duration": task_estimated_duration
+		"estimated_duration": task_estimated_duration,
 		} 
 		
 def select_json_file(default_json_list, other_options):
@@ -60,6 +58,22 @@ def select_json_file(default_json_list, other_options):
 	for new_option in other_options:		
 		options.append(str(new_option))
 
+	# create the view 
+	terminal_menu = TerminalMenu(
+		options,
+		title="=== TO DO list === \nSelect the task list",
+        menu_cursor="-> ",
+        menu_cursor_style=("fg_blue", "bold"),
+        menu_highlight_style=("bg_gray", "fg_blue"),
+		)
+
+	json_select_index = terminal_menu.show()
+	
+	return json_select_index
+
+def select_task_from_list(task_list):
+	log.debug("select_task_from_list start")
+	options = [task[0] for task in task_list]
 	# create the view 
 	terminal_menu = TerminalMenu(
 		options,
@@ -92,3 +106,28 @@ def prepare_json_file_path():
 def select_specific_json_file_path():
 	result = input("enter the specific task list path \n")
 	return result
+
+def show_task_table(header, data_list):
+	log.debug("show_task_table start")
+	print(tabulate(data_list, headers=header, tablefmt="outline"))
+
+def menu_update_task(task_name):
+	log.debug("update_task start")
+	options = [
+		"update name",
+		"update description",
+		"update status",
+		"update estimated duration"
+	]
+	# create the view 
+	terminal_menu = TerminalMenu(
+		options,
+		title=f"=== TO DO list === \nupdate task '{task_name}'",
+        menu_cursor="-> ",
+        menu_cursor_style=("fg_blue", "bold"),
+        menu_highlight_style=("bg_gray", "fg_blue"),
+		)
+
+	task_select_index = terminal_menu.show()
+	
+	return task_select_index

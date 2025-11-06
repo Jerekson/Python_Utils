@@ -5,7 +5,8 @@ from pathlib import Path
 
 log = logging.getLogger(__name__)
 
-# TODO : Create a specific configuration file to save the paths to specific task lists and add it to the options in the special section. 
+# TODO : Create a specific configuration file to save the paths to specific task lists 
+# and add it to the options in the special section. 
 
 def add_new_task(json_file_path):
     log.debug("add_new_task start")
@@ -21,9 +22,24 @@ def update_task(json_file_path):
 
 def show_tasks(path):
     log.debug("show_tasks start")
+    all_datas = []
+    if path.is_file():
+        all_datas += json.get_json_file_data(path)
+    elif path.is_dir():
+        log.info("TODO : do this part with all 'lists known'")
+    header = ["name","description","estimated duration in minute", "status"]
+    cli_view.show_task_table(header, all_datas)
 
 def show_specific_task(json_file_path):
     log.debug("show_specific_task start")
+    # Select the task to work on it
+    all_datas = json.get_json_file_data(json_file_path)
+    result_index = cli_view.select_task_from_list(all_datas)
+    log.debug(f"task '{all_datas[result_index][0]}' was selected")
+    result_action_index = cli_view.menu_update_task(all_datas[result_index][0])
+     # decide new actions
+    result_action_list = ["name","description","status","ED"]
+    update_task()
 
 def get_json_file_run():
     log.debug("get_json_list start")
@@ -79,17 +95,20 @@ def select_task_action(json_file_path):
     # task selection
     result = cli_view.main_menu()
     # Dictionary linking the option index to the corresponding function for tasks actions
+    log.debug(f"menu entry index result : {result}")
     actions = {
     0: add_new_task,
-    1: task_done,
-    2: update_task,
-    3: show_tasks,
-    4: show_specific_task,
-    5: lambda: sys.exit() # Use a lambda to exit the application correctly
+    1: show_tasks,
+    2: show_specific_task,
+    3: lambda: sys.exit() # Use a lambda to exit the application correctly
     }
+    log.debug(f"actions created {actions}")
     if result in actions:
         log.debug("result in action True")
-        actions[result](json_file_path)
+        if result == 3:
+            actions[result]
+        else:
+            actions[result](json_file_path)
 
 def retry():
     try:
@@ -106,7 +125,7 @@ def cli_controler_run():
 
     try:
         json_file = get_json_file_run()
-        json_file_data = json.get_json_file_data(json_file)
+        json_file_data = json.read_json_file(json_file)
 
         # first, check if the json file was created by this program. 
         # If not, prevent the user
