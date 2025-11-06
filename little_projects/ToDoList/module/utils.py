@@ -4,6 +4,7 @@ from pathlib import Path
 
 log = logging.getLogger(__name__)
 
+
 def validation_str_value(value, type=""):
     log.debug(f"validation_str_value methode for value '{value}' started")
     if type == "name" and value == "":
@@ -61,9 +62,14 @@ def control_dir_path_entry(dir_path):
     except Exception as e:
         raise e
 
-def control_task_entry(entry):
-    log.debug("control_task_entry start")
-    try:
-        return True
+def check_json_file_origin(json_file_data):
+    log.debug("check_json_file_origin start")
+    try: 
+        if json_file_data["metadata"]["Author"] == "ToDoList_original_creation":
+            return True
+        else:
+            return False
+    except KeyError as e:
+        log.debug(f"Dont find 'metadata'\n{e}")
     except Exception as e:
-        raise e
+        log.error(type(e))

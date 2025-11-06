@@ -46,20 +46,15 @@ def get_json_file_data(json_file_path):
     except json.decoder.JSONDecodeError as e:
         log.error(f"file cannot be decoded \n{json_file_path}\nYou have to select a good one")
         raise e
-        
 
-def file_exists(file):
-    log.debug(f"file_exists started for file {file}")
-
-def add_new_task():
+def add_new_task(json_file_path, task_infos):
     log.debug("add_new_task function start")
-
-def change_status():
-    log.debug("change_status function start")
-
-def get_specific_task():
-    log.debug("get_specific_task function start")
-
-def extract_json_file():
-    log.debug("extract_json_file function start")
-
+    data = get_json_file_data(json_file_path)
+    data[task_infos["name"]] = {
+    "name":task_infos["name"],
+    "description":task_infos["description"],
+    "estimated_duration":task_infos["estimated_duration"]
+    }
+    # save new datas
+    json_file_path.write_text(json.dumps(data, indent=4), encoding="utf-8")
+    log.info(task_infos)

@@ -23,5 +23,10 @@
             "skey1": "test298HFO",
             "skey2": "Hello3"
         }
-    ]
+    ],
+    "test": {
+        "name": "test",
+        "description": "",
+        "estimated_duration": 0
+    }
 }

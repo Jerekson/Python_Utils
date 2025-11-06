@@ -1,28 +1,25 @@
 {
-    "metadata": 
-        {
-            "Author": "Moi",
-            "file_name":"test1.json",
-            "created_date": 2025,
-            "description": "F:\\Documents\\GIT\\Python_Utils\\labo\\test-module\\test_json_module.json"
-        }
-    ,
-    "new data2": 
-        {
-            "skey1": "test1",
-            "skey2": "Hello2"
-        }
-    ,
-    "new data": 
-        {
-            "skey1": "test1",
-            "skey2": "Hello"
-        }
-    ,
-    "new data3": 
-        {
-            "skey1": "test1",
-            "skey2": "Hello3"
-        }
-
+    "metadata": {
+        "Author": "Moi",
+        "file_name": "test1.json",
+        "created_date": 2025,
+        "description": "F:\\Documents\\GIT\\Python_Utils\\labo\\test-module\\test_json_module.json"
+    },
+    "new data2": {
+        "skey1": "test1",
+        "skey2": "Hello2"
+    },
+    "new data": {
+        "skey1": "test1",
+        "skey2": "Hello"
+    },
+    "new data3": {
+        "skey1": "test1",
+        "skey2": "Hello3"
+    },
+    "fzeoifnz": {
+        "name": "fzeoifnz",
+        "description": "",
+        "estimated_duration": 234
+    }
 }
