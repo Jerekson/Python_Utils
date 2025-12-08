@@ -1,0 +1,65 @@
+@startuml diagram_examples
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+
+class Partie {
+    - tour_actuel : int
+    - est_terminee : bool
+    + lancer_partie()
+    + tour_suivant()
+    + verifier_victoire()
+    -- Ajout pour la sauvegarde --
+    + sauvegarder_etat()
+    + charger_etat()
+}
+
+class Personnage {
+    - nom : str
+    - points_de_vie : int
+    - score : int
+    - inventaire : list
+    + se_deplacer(x, y)
+    + attaquer(cible)
+    + recevoir_degats(montant)
+}
+
+class Sauvegarde {
+    - chemin_fichier : str
+    + sauvegarder(partie)
+    + charger() : Partie
+}
+
+abstract class Effet {
+    - nom : str
+    - duree_tours : int
+    + appliquer(personnage)
+}
+
+class Bonus {
+    + montant_soin : int
+    + augmenter_vitesse()
+}
+
+class Malus {
+    + degats_poison : int
+    + reduire_force()
+}
+
+class Action {
+    - nom : str
+    - cout_pa : int
+    + executer()
+}
+
+' Relations originales
+Partie "1" *-- "2..*" Personnage : Contient >
+Personnage "1" o-- "0..*" Effet : Possède >
+Effet <|-- Bonus : Hérite de
+Effet <|-- Malus : Hérite de
+Personnage ..> Action : Exécute >
+
+' Relation pour la sauvegarde
+Partie ..> Sauvegarde : Utilise
+
+@enduml
