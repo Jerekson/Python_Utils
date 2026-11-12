@@ -1,6 +1,9 @@
 # Python_Utils
 
-## TODO
+## Package installed (venv required)
+ - reportlab (used in little_project/chord_gen.py)
+
+## TODO list
 ### little projects 
  - Build the keylogger to send the capture keystrokes to a server you built using Python
 
